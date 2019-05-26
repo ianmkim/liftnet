@@ -1,0 +1,15 @@
+Flask_WTF==0.14.2
+setuptools==39.2.0
+Flask_Bcrypt==0.7.1
+Flask_Login==0.4.1
+git+git://github.com/ianthespaceperson/Flask-WhooshAlchemy.git
+Flask_Script==2.0.6
+Pygments==2.2.0
+Flask_Uploads==0.2.1
+Werkzeug==0.14.1
+Flask_Migrate==2.2.1
+WTForms==2.2.1
+Flask==1.0.2
+Flask_SQLAlchemy==2.3.2
+psycopg2==2.7.5
+alembic==1.0.0

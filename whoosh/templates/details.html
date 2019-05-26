@@ -1,0 +1,394 @@
+{% extends "template.html"%}
+{%block head%}
+<style>
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,300);
+:root {
+  transition: all 300ms;
+}
+:root.bg--big {
+  background-color: #00BCD4;
+}
+:root.bg--medium {
+  background-color: #E53935;
+}
+:root.bg--small {
+  background-color: #4527A0;
+}
+
+button {
+  border: none;
+  background: transparent;
+}
+.controller-container {
+  margin-bottom: 5%;
+  text-align: center;
+}
+.controller {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: inline-block;
+  margin: 0 20px;
+  font-size: 22px;
+  padding: 10px 0;
+  color: #FFF;
+  position: relative;
+  transition: all 100ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.controller:after {
+  content: "";
+  height: 3px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-color: #FFF;
+}
+.controller.is_current:after {
+  width: 100%;
+}
+.controller:hover,
+.controller.is_current {
+  -webkit-transform: translate3d(0, -5px, 0);
+          transform: translate3d(0, -5px, 0);
+  cursor: pointer;
+
+}
+.card {
+  will-change: transform;
+  margin: 8px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #fafafa;
+  height: 90%;
+  width: 90%;
+  transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+  margin:0 auto;
+}
+.card:hover {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+}
+.card__image {
+  position: absolute;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repat;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  opacity: 0;
+  transition: all 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.card__image:after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: all 500ms;
+  bottom: 0;
+}
+.card__title {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 24px;
+  color: #FFF;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  transition: all 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.card__subtitle {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 14px;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #000;
+  left: 88px;
+  right: 0;
+  top: 45px;
+  position: absolute;
+  padding: 0 16px;
+  opacity: 0;
+  transition: all 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.card__text {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 14px;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 100px;
+  padding: 16px;
+  margin: 0;
+  line-height: 1.6;
+  position: absolute;
+  color: #000;
+  overflow: hidden;
+  transition: width 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: delay 0.1s;
+}
+.card__action-bar {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  left: 0;
+  right: 0;
+  padding: 0 8px;
+  boz-sizing: border-box;
+  height: 52px;
+  transition: left 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.card__button {
+  outline: none;
+  position: relative;
+  display: inline-block;
+  line-height: 52px;
+  padding: 0 16px;
+  color: #FF1744;
+}
+.card--big {
+  /*box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);*/
+  height: 400px;
+  min-height: 400px;
+}
+
+
+
+.card--big .card__image {
+  border-radius: 1px 1px 0 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 1;
+  max-height: 176px;
+}
+.card--big .card__title {
+  top: 135px;
+}
+.card--big .card__text {
+  top: 176px;
+}
+.card--big .card__action-bar {
+  left: 0;
+}
+.card--medium {
+  box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
+  height: 208px;
+  min-height: 208px;
+}
+.card--medium .card__image {
+  border-radius: 1px 1px 0 0;
+  left: -100%;
+  right: 0;
+  top: 0;
+  max-height: 0;
+  opacity: 0;
+}
+.card--medium .card__title {
+  color: #FF1744;
+  top: 16px;
+}
+.card--medium .card__text {
+  font-size: 16px;
+  top: 50px;
+}
+.card--medium .card__action-bar {
+  left: 0;
+}
+.card--small {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  height: 136px;
+  min-height: 136px;
+}
+.card--small .card__image {
+  border-radius: 1px 0 0 1px;
+  left: 0;
+  top: 0;
+  width: 88px;
+  opacity: 1;
+  max-height: 136px;
+}
+.card--small .card__image:after {
+  opacity: 0;
+}
+.card--small .card__title {
+  color: #000;
+  left: 88px;
+  top: 8px;
+}
+.card--small .card__subtitle {
+  opacity: 1;
+  left: 88px;
+}
+.card--small .card__text {
+  top: 30px;
+  opacity: 0;
+}
+.card--small .card__action-bar {
+  left: 88px;
+}
+
+/* Create two equal columns that floats next to each other */
+.column1 {
+    float: left;
+    width: 25%;
+    padding: 10px;
+
+}
+.column2 {
+    float: right;
+    width: 75%;
+    padding: 10px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+</style>
+<style>
+.cardP {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+
+
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="card card--big">
+  <div style="padding-top:5px; padding-left:15px;padding-right:10px">
+   <div class="row">
+     <div class="column1" style="">
+      <div class="cardP">
+      <img src="{{url_for('static', filename="img/person-generic.jpg")}}" alt="John" style="width:62%; border-radius:50%;">
+      <h1>{{item.firstname}} {{item.lastname}}</h1>
+      <p>Judge Score: {{score}}/10</p>
+
+    </div>
+      <!--
+      <div style="margin:0 auto; width:50%; height:50%; vertical-align:middle;">
+       <h2>{{item.firstname}} {{item.lastname}}</h2>
+       <p>Judge Score: {{score}}/10</p>
+      </div>
+    -->
+     </div>
+     <div class="column2" style="height:400px; overflow-y:auto;">
+       <h2>Paradigm</h2>
+         <p>{{item.paradigm}}</p>
+       <h2>Experience</h2>
+         <p>{{item.experience}}</p>
+       <h2>Occupation</h2>
+         <p>{{item.occupation}}</p>
+     </div>
+   </div>
+
+  </div>
+  <div class="card__action-bar">
+    <button type="button" class="card__button" data-toggle="modal" data-target="#exampleModal">
+        Comment
+      </button>
+
+      <!-- Modal -->
+      
+  </div>
+
+
+
+
+
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Comment</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="POST" action="/post_comment">
+                       {{ form.csrf_token }}
+            <div class="modal-body">
+              
+                  <label>Title</label>
+                 {{form.title(class="form-control")}}
+                  <label>Comment</label>
+                 {{form.content(class="form-control" ,rows="15")}}
+                  <label>Rating Out of 10</label>
+                 {{form.rating(class="form-control", type="number", min="0", max="10")}}
+                 <br/>
+                  {{form.judgeId(readonly=True ,class="form-control" ,style="padding-top:5px;")}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              {{form.submit(class="btn btn-primary")}}
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+<div id="comments" class="" style="padding-top:25px;">
+   {% for comment in range(comments|length)%}
+   <div id="comment" class=" portfolio-item"style="width:auto;">
+     <div class="card h-100">
+       <a href="#"><img class="card-img-top" src="" alt=""></a>
+       <div class="card-body">
+         <h4 class="card-title">
+           <a target="_blank">{{comments[comment].title}} by {{usernames[comment]}}</a>
+         </h4>
+         <p>{{comments[comment].content}}</p>
+         <p>{{comments[comment].rating}}/10</p>
+         <small>
+         <p class="card-text">{{comments[comment].time}}</p>
+      </small>
+       </div>
+     </div>
+   </div>
+   {% endfor %}
+</div>
+{% endblock%}
+{% block scripts %}
+
+{% endblock %} 

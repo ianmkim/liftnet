@@ -1,0 +1,30 @@
+{% if current_user.is_authenticated%}
+	<label id="value_lable" >
+	    {% for post in range(results|length) %} 
+		<div class="portfolio-item" style="width:100%; padding-bottom:10px;">
+		  <div class="card h-100">
+		  	<a href="#"><img class="card-img-top" alt=""></a>
+		    <div class="card-body">
+		      <h4 class="card-title">
+		      	<a href="{{url_for('details', judge=results[post].id)}}">
+		      {{results[post].firstname}} {{results[post].lastname}}
+		  		</a>
+		      </h4>
+		      <p>
+		      	{{snippets[post]}}...
+		      </p>
+		      <small>
+		      <p class="card-text">{{ results[post].occupation }}</p>
+		  	</small>
+		    </div>
+		  </div>
+		</div>
+		{% endfor %}
+
+	</label>
+
+
+{% else %}
+	<h1> You are currently not logged in </h1>
+	<p> To view judges and comment on judges, you need to be an authenticated user, this is because we want to verify your identity to prevent bots/automated machines make queries and post comments! Thanks for understanding.</p>
+{% endif %}

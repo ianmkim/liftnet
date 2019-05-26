@@ -1,0 +1,249 @@
+{% extends "template.html"%}
+{%block head%}
+<style>/***********************
+ * Essential Structure *
+ ***********************/
+.flexsearch--wrapper {
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: transparent;
+  margin: 0;
+  position: static;
+}
+
+.flexsearch--form {
+  overflow: hidden;
+  position: relative;
+}
+
+.flexsearch--input-wrapper {
+  padding: 0 66px 0 0;
+  /* Right padding for submit button width */
+  overflow: hidden;
+}
+
+.flexsearch--input {
+  width: 100%;
+}
+
+/***********************
+ * Configurable Styles *
+ ***********************/
+.flexsearch {
+  padding: 0 5% 0 5%;
+  /* Padding for other horizontal elements */
+}
+
+.flexsearch--input {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 60px;
+  padding: 0 46px 0 10px;
+  border-color: #888;
+  border-radius: 35px;
+  /* (height/2) + border-width */
+  border-style: solid;
+  border-width: 5px;
+  margin-top: 15px;
+  color: #333;
+  font-size: 26px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.flexsearch--submit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  margin-top: 20px;
+  /* margin-top + border-width */
+  margin-right: 5px;
+  /* border-width */
+  background: transparent;
+  color: #888;
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.flexsearch--input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.flexsearch--input:focus.flexsearch--submit {
+  color: #333;
+}
+
+.flexsearch--submit:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+  color: #888;
+}
+
+input:-moz-placeholder {
+  color: #888;
+}
+
+/****************
+ * Pretify demo *
+ ****************/
+.h1 {
+  float: left;
+  margin: 25px;
+  color: #333;
+  font-size: 45px;
+  font-weight: bold;
+  line-height: 45px;
+  text-align: center;
+}
+.lds-grid {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-grid div {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #000;
+  animation: lds-grid 1.2s linear infinite;
+}
+.lds-grid div:nth-child(1) {
+  top: 6px;
+  left: 6px;
+  animation-delay: 0s;
+}
+.lds-grid div:nth-child(2) {
+  top: 6px;
+  left: 26px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(3) {
+  top: 6px;
+  left: 45px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(4) {
+  top: 26px;
+  left: 6px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(5) {
+  top: 26px;
+  left: 26px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(6) {
+  top: 26px;
+  left: 45px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(7) {
+  top: 45px;
+  left: 6px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(8) {
+  top: 45px;
+  left: 26px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(9) {
+  top: 45px;
+  left: 45px;
+  animation-delay: -1.6s;
+}
+@keyframes lds-grid {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="flexsearch">
+  
+      <div class="flexsearch--wrapper">
+         <div class="flexsearch--form">
+            <div class="flexsearch--input-wrapper">
+               <input class="flexsearch--input" type="search" placeholder="search" id="searchBar" name="jsdata1">
+            </div>
+            <input class="flexsearch--submit" type="button" value="&#10140;" id="searchButton"/>
+         </div>
+      </div>
+      <div class="flexsearch" id="resultXor" style="padding-top:20px; width:100%;">
+   
+</div>
+</div>
+
+</div>
+
+
+
+{% endblock%}
+
+
+{% block scripts%}
+<script>
+           $("#searchButton").click(function(){
+               console.log("click happened")
+               var o1 = $("#searchBar").val();
+               console.log(o1);
+               $("#resultXor").html("<div class=\"lds-grid\" style=\"width:50%; margin:0 auto;\"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>");
+
+               $.ajax({
+                 url: "/search",
+                 type: "get",
+                 data: {jsdata1: o1
+                     },
+                 success: function(response) {
+                   $("#resultXor").html(response);
+                 },
+                 error: function(xhr) {
+                   $("#resultXor").html(response);
+                 }
+               });
+           });
+           $('input[type=text]').on('keydown', function(e) {
+                if (e.which == 13) {
+                    console.log("click happened")
+               var o1 = $("#searchBar").val();
+               console.log(o1);
+               $("#resultXor").html("searching...");
+
+               $.ajax({
+                 url: "/search",
+                 type: "get",
+                 data: {jsdata1: o1
+                     },
+                 success: function(response) {
+                   $("#resultXor").html(response);
+                 },
+                 error: function(xhr) {
+                   $("#resultXor").html(response);
+                 }
+               });
+                    e.preventDefault();
+                }
+            });
+         </script>
+{% endblock %}
