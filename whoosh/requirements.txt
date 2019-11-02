@@ -6,7 +6,7 @@ git+git://github.com/ianthespaceperson/Flask-WhooshAlchemy.git
 Flask_Script==2.0.6
 Pygments==2.2.0
 Flask_Uploads==0.2.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 Flask_Migrate==2.2.1
 WTForms==2.2.1
 Flask==1.0.2
