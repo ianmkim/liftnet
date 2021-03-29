@@ -4,7 +4,7 @@ Flask_Bcrypt==0.7.1
 Flask_Login==0.4.1
 git+git://github.com/ianthespaceperson/Flask-WhooshAlchemy.git
 Flask_Script==2.0.6
-Pygments==2.2.0
+Pygments==2.7.4
 Flask_Uploads==0.2.1
 Werkzeug==0.14.1
 Flask_Migrate==2.2.1
